@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -7,6 +6,9 @@ const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const FileAsync = require('lowdb/adapters/FileAsync')
 const Notes = require('./model/notes');
+
+
+const app = express();
 
 //Middleware, Logging
 app.use(morgan("common"));
@@ -25,6 +27,7 @@ app.get("/", (req, res) => {
 
 function mySearch(query) {
   return function(element) {
+    console.log("query is", query)
     console.log("message is ", element.message);
     if (element.message.includes(query)) {
       console.log("elem being returned ", element);
@@ -38,11 +41,12 @@ function mySearch(query) {
 app.get("/notes", (req, res) => {
   if (req.query["search"]) {
     console.log("query is ", req.query["search"]);
-    const filtered = db.get("notes").filter(mySearch(req.query["search"]));
+    const filtered = db.get("notes").filter(mySearch(req.query["search"])).value();
+    console.log("filtered ", filtered);
     res.send({ notes: filtered });
   } else {
     const notes = db.get("notes").value();
-    console.log("notes ", notes);
+    //console.log("notes ", notes);
     res.send(notes);
   }
 });
@@ -65,7 +69,7 @@ app.get("/notes/:id", (req, res) => {
 });
 
 //ADD ONE OR MORE NOTES
-//Request body contains an array of strings
+//Request body contains an array of strings to be added
 app.post("/notes", jsonParser, (req, res) => {
     const requiredFields = ['notes_array'];
   for(field of requiredFields){
@@ -97,7 +101,7 @@ app.delete('/notes', jsonParser, (req,res)=> {
     const id_arr = req.body.id_array;
     let not_found =[];
     for (noteId of id_arr){
-        let item  = db.get('notes').find({id:1541559660662}).value();
+        let item  = db.get('notes').find({id:noteId}).value();
         if(!item){
             console.log("item ", item);
             not_found.push(noteId);
@@ -114,6 +118,8 @@ app.delete('/notes', jsonParser, (req,res)=> {
         const message = `Unable to find notes with ID ` + not_found.join(',');
         console.error(message);
        res.status(400).send(message);
+    }else{
+        res.status(204).end();
     }
 });
 
@@ -157,20 +163,6 @@ app.delete('/notes', jsonParser, (req,res)=> {
 //})
 
 //DELETE ONE NOTE
-// app.delete("/notes/:id", (req, res) => {
-//   //TBD: check if the ID exists
-//   const noteId = parseInt(req.params.id);
-//   console.log("id to remove:", noteId);
-//   try {
-//     db.get("notes")
-//         .find({id: noteId})
-//       .remove({ id: noteId })
-//       .write();
-//     res.status(204).end();
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
 app.delete("/notes/:id", (req, res) => {
     //TBD: check if the ID exists
     const noteId = parseInt(req.params.id);
@@ -186,10 +178,11 @@ app.delete("/notes/:id", (req, res) => {
     .catch(err => res.status(500).send(err.message))
   });
 
-
+//UPDATE A NOTE
 app.put("/notes/:id", jsonParser, (req, res) => {
   const noteId = parseInt(req.params.id);
   //Check for required keys from req.body
+  console.log("incoming req.body", req.body);
   const requiredFields = ['id','message'];
   for(field of requiredFields){
       if(!(field in req.body)){
@@ -209,19 +202,50 @@ app.put("/notes/:id", jsonParser, (req, res) => {
   if(!noteExists){
     return res.status(400).send("Invalid ID");
   }
-
+  console.log("note to be updated" , req.body)
   db.get("notes")
     .find({ id: noteId })
     .assign({ message: req.body.message })
     .write();
-  res.send("updated");
+  res.status(204).end();
 });
+
+app.get("*", (req, res) => res.send("ok"));
 
 //UNDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO LATER
 // db.defaults({notes:[]}).write()
 
-//Routes
-app.get("*", (req, res) => res.send("ok"));
-app.listen(process.env.PORT || 8000, () => {
-  console.log("App is listening on 8000");
-});
+//Runserver to launch before every test
+function runServer(){
+    const port = process.env.PORT || 8000;
+    return new Promise((resolve, reject) => {
+        server = app.listen(port, () => {
+            console.log(`App is listening on ${port}`);
+            resolve(server)
+        })
+        .on("error", err => {
+            reject(err)
+        });
+    });
+}
+
+//Closeserver to run after every test
+function closeServer(){
+    return new Promise((resolve, reject) => {
+        console.log("closing server");
+        server.close(err => {
+            if(err){
+                reject(err);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
+//Needed for direct invokation eg: "node server.js"
+if (require.main === module) {
+    runServer().catch(err => console.error(err));
+  }
+
+module.exports = {app, runServer, closeServer}
