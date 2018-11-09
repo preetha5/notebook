@@ -25,10 +25,9 @@ app.get("/", (req, res) => {
   res.send("index.html");
 });
 
+//Custom Search function for array filter
 function mySearch(query) {
   return function(element) {
-    console.log("query is", query)
-    console.log("message is ", element.message);
     if (element.message.includes(query)) {
       console.log("elem being returned ", element);
       return true;
@@ -42,7 +41,6 @@ app.get("/notes", (req, res) => {
   if (req.query["search"]) {
     console.log("query is ", req.query["search"]);
     const filtered = db.get("notes").filter(mySearch(req.query["search"])).value();
-    console.log("filtered ", filtered);
     res.send({ notes: filtered });
   } else {
     const notes = db.get("notes").value();
@@ -123,46 +121,8 @@ app.delete('/notes', jsonParser, (req,res)=> {
     }
 });
 
-// app.delete('/notes', jsonParser, (req,res)=> {
-//     const id_arr = req.body.id_array;
-//     let invalid_id =[];
-//     let valid_id = [];
-//     for (noteId of id_arr){
-//        return Notes.checkIdExists(noteId)
-//        .then((resp)=>{
-//         console.log("resp ", resp)
-//         if(!resp){
-//                 invalid_id.push(noteId)
-                
-//         } else{
-//                 valid_id.push(noteId);
-//         }
-//        })    
-//     }
 
-//     console.log("valid_id ", valid_id);
-//     if (valid_id.length>0){
-//         for (id of valid_id){
-//             Notes.deleteNote(id)
-//             .then((resp) => {
-//                 console.log("delete resp ", resp)
-//                 res.json('Item deleted')
-//             })
-//             .catch(err => {
-//                 console.error(err.message);
-//                 res.status(500).send(err.message)
-//             })
-//         }
-// }
-
-//     if(invalid_id.length){
-//         const message = `Unable to find notes with ID ` + invalid_id.join(',');
-//         console.error(message);
-//        res.status(400).send(message);
-//     }
-//})
-
-//DELETE ONE NOTE
+//DELETE ONE NOTE (MAYBE NOT NEEDED ??)
 app.delete("/notes/:id", (req, res) => {
     //TBD: check if the ID exists
     const noteId = parseInt(req.params.id);

@@ -82,7 +82,10 @@ describe('Notebook', function() {
                 .then((resp) =>{
                    expect(resp).to.have.status(200);
                    expect(resp).to.be.json;
-                    expect(resp.body).to.have.lengthOf(2);
+                    expect(resp.body.notes).to.have.lengthOf.at.least(1);
+                    resp.body.notes.forEach(item  =>{
+                        expect(item.message).to.have.string('hellow')
+                    })
                 })
     })
 
