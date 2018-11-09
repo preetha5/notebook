@@ -1,30 +1,38 @@
 # Notebook
-##App to add and manage notes. Using this service you will be able to 
-{1}Add one or notes
-{2}Edit a note
-{3}Get all notes
-{4}Search for notes with keywords
-{5}Delete one or more notes
+## App to add and manage notes. Using this service you will be able to 
+* Add one or notes
+* Edit a note
+* Get all notes
+* Search for notes with keywords
+* Delete one or more notes
 
-#How to Run
-## Clone the git repo locally
-## In cmd prompt run >> npm i
-##  >>npm test (This will launch the unit tests for API)
+## Technology
+* Backend -Rest API -Endpoints
+    * NODEJS
+    * EXPRESS
+    * LOWDB
+    * CHAI (For testing)
+    * MOCHA (For testing)
 
-#Postman check
-## In cmd prompt run >> npm start
-## Your local web server will get launched in localhost:8000
+## How to Run
+### Clone the git repo locally
+### In cmd prompt run >> npm i
+###  >>npm test (This will launch the unit tests for API)
 
-## Check GET Endpoint
-###
+## Postman check
+### In cmd prompt run >> npm start
+### Your local web server will get launched in localhost:8000
 
-##Check POST Endpoint
-###
+### Check GET Endpoint
+[TBD: Screenshot]
 
-##Check PUT Endpoint
-###
+### Check POST Endpoint
+[TBD: Screenshot]
 
-##Check DELETE Endpoint
-###
+### Check PUT Endpoint
+[TBD: Screenshot]
+
+### Check DELETE Endpoint
+[TBD: Screenshot]
 
 
