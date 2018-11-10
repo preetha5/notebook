@@ -2,6 +2,8 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const { app, runServer, closeServer } = require("../server");
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
 
 chai.use(chaiHttp);
 
