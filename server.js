@@ -6,6 +6,7 @@ const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const FileAsync = require('lowdb/adapters/FileAsync')
 const Notes = require('./model/notes');
+const shortId = require('shortid');
 
 
 const app = express();
@@ -15,9 +16,10 @@ app.use(morgan("common"));
 app.use(express.static("public"));
 app.use(jsonParser);
 
-const adapter = new FileSync("db/db.json");
+//var adapter = new FileSync("db/db.json");
 //const adapter = new FileAsync("db/db.json");
-const db = low(adapter);
+var adapter;
+var db;
 
 //Routes
 
@@ -81,7 +83,7 @@ app.post("/notes", jsonParser, (req, res) => {
     const newNotes =[];
     for(let item of notes_array){
         const newNote = {
-            id:Date.now(),
+            id:shortId.generate(),
             message: item
         }
         db.get("notes")
@@ -121,26 +123,9 @@ app.delete('/notes', jsonParser, (req,res)=> {
     }
 });
 
-
-//DELETE ONE NOTE (MAYBE NOT NEEDED ??)
-app.delete("/notes/:id", (req, res) => {
-    //TBD: check if the ID exists
-    const noteId = parseInt(req.params.id);
-    console.log("id to remove:", noteId);
-    if(!Notes.checkIdExists(noteId)){
-        return res.status(400).send("invalid id")
-    };
-    
-    Notes.deleteNote(noteId)
-    .then(()=>{
-        res.json('Item deleted')
-    })
-    .catch(err => res.status(500).send(err.message))
-  });
-
 //UPDATE A NOTE
 app.put("/notes/:id", jsonParser, (req, res) => {
-  const noteId = parseInt(req.params.id);
+  const noteId = req.params.id;
   //Check for required keys from req.body
   console.log("incoming req.body", req.body);
   const requiredFields = ['id','message'];
@@ -176,8 +161,17 @@ app.get("*", (req, res) => res.send("ok"));
 // db.defaults({notes:[]}).write()
 
 //Runserver to launch before every test
-function runServer(){
+function runServer(mode="dev"){
     const port = process.env.PORT || 8000;
+    console.log("mode is", mode);
+    if(mode === "test"){
+        adapter = new FileSync("db/db_test.json");
+    } else{
+        adapter = new FileSync("db/db.json");
+    }
+    console.log("adapter is", adapter);
+    db = low(adapter);
+    db.defaults({notes:[]}).write();
     return new Promise((resolve, reject) => {
         server = app.listen(port, () => {
             console.log(`App is listening on ${port}`);
@@ -189,7 +183,7 @@ function runServer(){
     });
 }
 
-//Closeserver to run after every test
+//CloseServer to run after every test
 function closeServer(){
     return new Promise((resolve, reject) => {
         console.log("closing server");

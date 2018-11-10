@@ -17,22 +17,28 @@
 ## How to Run
 ### Clone the git repo locally
 ### In cmd prompt run >> npm i
-###  >>npm test (This will launch the unit tests for API)
+###  >>npm test (This will launch all the unit tests for API)
 
-## Postman check
+## Use Postman to check API responses
 ### In cmd prompt run >> npm start
 ### Your local web server will get launched in localhost:8000
 
-### Check GET Endpoint
-[TBD: Screenshot]
+### Get all Notes
+![Get All Notes](./screenshots/view_bugs_desktop.jpg?raw=true "View all Notes Page")
 
-### Check POST Endpoint
-[TBD: Screenshot]
+### Search for notes
+![Search Notes](./screenshots/view_bugs_desktop.jpg?raw=true "Search Notes Page")
 
-### Check PUT Endpoint
-[TBD: Screenshot]
+### Add note(s)
+![Add Notes](./screenshots/view_bugs_desktop.jpg?raw=true "Add Notes Page")
 
-### Check DELETE Endpoint
-[TBD: Screenshot]
+
+### Edit a Note
+![Edit Note](./screenshots/view_bugs_desktop.jpg?raw=true "Edit Note Page")
+
+
+### Delete note(s) Endpoint
+![Delete Notes](./screenshots/view_bugs_desktop.jpg?raw=true "Delete Notes Page")
+
 
 

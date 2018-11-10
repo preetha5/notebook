@@ -8,11 +8,24 @@ chai.use(chaiHttp);
 describe('Notebook', function() {
 
     before(function(){
-        return runServer();
+        return runServer(mode="test");
     })
 
     after(function(){
         return closeServer();
+    })
+
+    it('should add one or more notes on POST', function(){
+        const arr= {
+            "notes_array":["hellow 001", "hellow 002"]
+            }
+    
+        return chai.request(app)
+                .post('/notes')
+                .send(arr)
+                .then((res) => {
+                    expect(res).to.have.status(201);
+                })
     })
 
     it('should return all Notes on GET', function(){
@@ -29,53 +42,6 @@ describe('Notebook', function() {
             })
     })
 
-    it('should add one or more notes on POST', function(){
-        const arr= {
-            "notes_array":["hellow 001", "hellow 002"]
-            }
-    
-        return chai.request(app)
-                .post('/notes')
-                .send(arr)
-                .then((res) => {
-                    expect(res).to.have.status(201);
-                })
-    })
-
-    it('should delete one or more Notes - valid ID' , function(){
-        const input ={
-            "id_array":[1541559660662, 1234]
-        }
-        return chai.request(app)
-                .get('/notes')
-                .then((resp) =>{
-                    const idToDelete = {id_array: [resp.body[0].id]};
-                    return chai.request(app)
-                            .delete('/notes')
-                            .send(idToDelete)
-                            .then((res) =>{
-                                expect(res).to.have.status(204)
-                            })
-                })
-    })
-
-    it('should update an existing note' , function(){
-        return chai.request(app)
-                .get('/notes')
-                .then((resp) =>{
-                    const updatedNote = {
-                        id : resp.body[0].id,
-                        message: "new test message"
-                    }
-                    return chai.request(app)
-                            .put(`/notes/${resp.body[0].id}`)
-                            .send(updatedNote)
-                            .then((resp)=> {
-                                expect(resp).to.have.status(204)
-                            })
-                })
-    })
-
     it('should return notes based on search terms' , function(){
         return chai.request(app)
                 .get('/notes?search=hellow')
@@ -86,6 +52,38 @@ describe('Notebook', function() {
                     resp.body.notes.forEach(item  =>{
                         expect(item.message).to.have.string('hellow')
                     })
+                })
+    })
+
+    it('should update an existing note' , function(){
+        return chai.request(app)
+                .get('/notes')
+                .then((resp) =>{
+                    const idEdit=resp.body[0].id
+                    const updatedNote = {
+                        id : idEdit,
+                        message: "new test message"
+                    }
+                    return chai.request(app)
+                            .put(`/notes/${idEdit}`)
+                            .send(updatedNote)
+                            .then((resp)=> {
+                                expect(resp).to.have.status(204)
+                            })
+                })
+    })
+
+    it('should delete one or more Notes - valid ID' , function(){
+        return chai.request(app)
+                .get('/notes')
+                .then((resp) =>{
+                    const idToDelete = {id_array: [resp.body[0].id]};
+                    return chai.request(app)
+                            .delete('/notes')
+                            .send(idToDelete)
+                            .then((res) =>{
+                                expect(res).to.have.status(204)
+                            })
                 })
     })
 
