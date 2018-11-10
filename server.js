@@ -157,9 +157,6 @@ app.put("/notes/:id", jsonParser, (req, res) => {
 
 app.get("*", (req, res) => res.send("ok"));
 
-//UNDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO LATER
-// db.defaults({notes:[]}).write()
-
 //Runserver to launch before every test
 function runServer(mode="dev"){
     const port = process.env.PORT || 8000;
@@ -197,7 +194,7 @@ function closeServer(){
     });
 }
 
-//Needed for direct invokation eg: "node server.js"
+//Needed for direct invocation eg: "node server.js"
 if (require.main === module) {
     runServer().catch(err => console.error(err));
   }
