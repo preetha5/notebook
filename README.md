@@ -41,10 +41,10 @@ Below is a list of endpoints supported by the Notebook API.
 | API        | Request (Params) | Request (Body)  |Response| Description
 | ------------- |:-------------:| -----:|---:|:----|
 | GET | None | None |   200 | Returns all notes |
-| GET | ?search={keyword1}+{keyword2} | None | 200 | Returns json array of notes 
-| POST | None | "notes_array" | 201 | Returns json array of note objects 
+| GET | ?search={keyword1}+{keyword2} | None | 200 | Returns filtered array of notes based on search terms
+| POST | None | "notes_array" | 201 | Returns json array of new note objects 
 | PUT | /:id | Object | 204 | Request body should contain object with id and message keys
-| DELETE | None | "id_array" | 204 | Returns json array of notes 
+| DELETE | None | "id_array" | 204 | Request is an array of ID's to delete. Returns 204 on successful detetion of all ID's. If not returns 500 with undeleted ID's.
 
 
 

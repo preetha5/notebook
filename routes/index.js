@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
 const { db } = require("../model");
-//const db = db_dev;
 
 //Custom Search function for array filter
 function mySearch(query) {
@@ -52,8 +51,8 @@ router.get("/:id", (req, res) => {
 //ADD ONE OR MORE NOTES
 //Request body contains an array of strings to be added
 router.post("/", jsonParser, (req, res) => {
-  //const requiredField = 'notes_array';
   let badRequest = null;
+  //Check validations on request
   if (!("notes_array" in req.body)) {
     badRequest = `Missing 'notes_array' in request body`;
   } else if (!Array.isArray(req.body.notes_array)) {
@@ -86,7 +85,7 @@ router.post("/", jsonParser, (req, res) => {
 });
 
 //DELETE ONE OR MORE NOTES
-//Request contains an array of ID's to be deleted
+//Request body contains an array of ID's to be deleted
 router.delete("/", jsonParser, (req, res) => {
   const id_arr = req.body.id_array;
   let not_found = [];

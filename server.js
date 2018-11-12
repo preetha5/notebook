@@ -5,11 +5,8 @@ const jsonParser = bodyParser.json();
 const low = require("lowdb");
 const app = express();
 const { PORT } = require('./config');
-//Global defines
-var db;
 
 const notesRouter = require('./routes');
-
 
 //Middleware, Logging
 app.use(morgan("common"));
@@ -58,4 +55,4 @@ if (require.main === module) {
     runServer().catch(err => console.error(err));
   }
 
-module.exports = {app, db, runServer, closeServer}
+module.exports = {app, runServer, closeServer}
