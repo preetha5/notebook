@@ -17,18 +17,15 @@ app.use(express.static("public"));
 app.use(jsonParser);
 
 //Routes
-
 app.get("/", (req, res) => {
   res.send("index.html");
 });
 
 app.use('/notes', notesRouter);
 
-
 app.get("*", (req, res) => res.send("ok"));
 
 //Runserver to launch before every test
-//Needs database to be passed in as input
 function runServer(){
     const port = process.env.PORT || 8000;
     return new Promise((resolve, reject) => {
@@ -57,11 +54,7 @@ function closeServer(){
 }
 
 //Needed for direct invokation eg: "node server.js"
-//create DB for dev use and pass to runserver
 if (require.main === module) {
-    // const FileSync = require("lowdb/adapters/FileSync");
-    // const adapter = new FileSync("db/db.json");
-    // db = low(adapter);
     runServer().catch(err => console.error(err));
   }
 

@@ -12,7 +12,7 @@
 
 ## Description
 Notebook is an API service to add and manage notes. Using this service you will be able to 
-* Add one or notes
+* Add one or more notes
 * Edit a note
 * Get all notes
 * Search for notes with keywords
@@ -51,9 +51,10 @@ Below is a list of endpoints supported by the Notebook API.
 <a name="tests"></a>
 
 ## Installing and running unit tests
-Clone the repo locally and launch the tests. This will create a db_test JSON database for testing purposes.
+Clone the repo locally and launch the tests. This will create a db_test JSON database for testing purposes. Note: You need to have recent stable install of [NODEJS](https://nodejs.org/en/).
 ``` bash 
 $git clone https://github.com/preetha5/notebook.git
+$cd notebook
 $npm install
 $npm test
 ```
