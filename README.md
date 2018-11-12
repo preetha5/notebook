@@ -69,21 +69,21 @@ App is listening on 8000
 ```
 
 * ### GET all Notes
-![Get All Notes](./screenshots/get_all_notes.jpg?raw=true "View all Notes Page")
+![Get All Notes](./screenshots/get_all_notes.JPG?raw=true "View all Notes Page")
 
 * ### Search for notes
-![Search Notes](./screenshots/search_notes.jpg?raw=true "Search Notes Page")
+![Search Notes](./screenshots/search_notes.JPG?raw=true "Search Notes Page")
 
 * ### Add note(s)
-![Add Notes](./screenshots/add_notes.jpg?raw=true "Add Notes Page")
+![Add Notes](./screenshots/add_notes.JPG?raw=true "Add Notes Page")
 
 
 * ### Edit a Note
-![Edit Note](./screenshots/edit_note.jpg?raw=true "Edit Note Page")
+![Edit Note](./screenshots/edit_note.JPG?raw=true "Edit Note Page")
 
 
 * ### Delete note(s)
-![Delete Notes](./screenshots/delete_notes.jpg?raw=true "Delete Notes Page")
+![Delete Notes](./screenshots/delete_notes.JPG?raw=true "Delete Notes Page")
 
 
 
