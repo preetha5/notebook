@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const low = require("lowdb");
 const app = express();
-
+const { PORT } = require('./config');
 //Global defines
 var db;
 
@@ -27,10 +27,10 @@ app.get("*", (req, res) => res.send("ok"));
 
 //Runserver to launch before every test
 function runServer(){
-    const port = process.env.PORT || 8000;
+    console.log("process.env.NODE_ENV" ,process.env.NODE_ENV);
     return new Promise((resolve, reject) => {
-        server = app.listen(port, () => {
-            console.log(`App is listening on ${port}`);
+        server = app.listen(PORT, () => {
+            console.log(`App is listening on ${PORT}`);
             resolve(server)
         })
         .on("error", err => {
@@ -53,7 +53,7 @@ function closeServer(){
     });
 }
 
-//Needed for direct invokation eg: "node server.js"
+//Needed for direct invocation eg: "node server.js"
 if (require.main === module) {
     runServer().catch(err => console.error(err));
   }

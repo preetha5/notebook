@@ -1,6 +1,7 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
+process.env.NODE_ENV = 'test';
 const { app, runServer, closeServer } = require("../server");
 const low = require("lowdb");
 const {db} = require("../model");
