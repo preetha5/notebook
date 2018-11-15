@@ -2,7 +2,7 @@ function addNoteListener(){
     $('#btn_submit').click((e)=>{
         e.preventDefault();
         const text = $('#note_input').val();
-
+        $('#note_input').val("");
         const message = {
             "notes_array":[text]
             }
@@ -76,8 +76,22 @@ function deleteNotesListener(){
     })
 }
 
+function searchNotesListener(){
+    $('#search_form').submit((e)=>{
+        e.preventDefault();
+        const query = $("#search_query").val().split(" ");
+        console.log(query);
+        $.ajax({
+            url:`/notes?search=${query}`
+          })
+          .then((data) =>{
+              console.log(data);
+          })
+    })
+}
 $(function(){
     addNoteListener();
     loadNotes();
     deleteNotesListener();
+    searchNotesListener();
 })

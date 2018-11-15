@@ -24,7 +24,6 @@ app.get("*", (req, res) => res.send("ok"));
 
 //Runserver to launch before every test
 function runServer(){
-    console.log("process.env.NODE_ENV" ,process.env.NODE_ENV);
     return new Promise((resolve, reject) => {
         server = app.listen(PORT, () => {
             console.log(`App is listening on ${PORT}`);

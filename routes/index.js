@@ -8,24 +8,39 @@ const { db } = require("../model");
 
 //Custom Search function for array filter
 function mySearch(query) {
+  
   return function(element) {
-    if (element.message.includes(query)) {
-      console.log("elem being returned ", element);
-      return true;
+    let found = true;
+    for (let item of query) {       
+      if (element.message.search(item) == -1) {
+        found = false;
+        break;
+      }
     }
-    return false;
+    return found;
   };
 }
 
 //GET ALL NOTES
 router.get("/", (req, res) => {
   if (req.query["search"]) {
-    console.log("query is ", req.query["search"]);
+    const search_arr = JSON.parse(req.query.search);
+    console.log("search_arr ", search_arr);
+    let notes_arr = [];
+    //for(let word of search_arr){
+    //console.log("word is ", word);
     const filtered = db
       .get("notes")
-      .filter(mySearch(req.query["search"]))
+      .filter(mySearch(search_arr))
       .value();
-    res.send({ notes: filtered });
+    console.log("obj added to notes_arr ", filtered);
+    notes_arr = [...filtered];
+    // }
+    // const filtered = db
+    //   .get("notes")
+    //   .filter(mySearch(req.query["search"]))
+    //   .value();
+    res.send(notes_arr);
   } else {
     const notes = db.get("notes").value();
     res.send(notes);
