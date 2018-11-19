@@ -21,7 +21,8 @@ Notebook is an API service to add and manage notes. Using this service you will 
 <a name="tech"></a>
 
 ## Demo
-TBD - Front end
+The Front-End is a minimally contructed UI using HTML/CSS/Javascript and jQuery
+![Default App Home](./screenshots/app_home.JPG?raw=true "Notebook Home")
 
 <a name="tech"></a>
 
