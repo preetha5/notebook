@@ -8,11 +8,13 @@ const { db } = require("../model");
 
 //Custom Search function for array filter
 function mySearch(query) {
-  
   return function(element) {
     let found = true;
-    for (let item of query) {       
-      if (element.message.search(item) == -1) {
+    for (let item of query) {
+      if (
+        element.message.search(item) == -1 &&
+        element.message.toLowerCase().search(item) == -1
+      ) {
         found = false;
         break;
       }
@@ -35,11 +37,6 @@ router.get("/", (req, res) => {
       .value();
     console.log("obj added to notes_arr ", filtered);
     notes_arr = [...filtered];
-    // }
-    // const filtered = db
-    //   .get("notes")
-    //   .filter(mySearch(req.query["search"]))
-    //   .value();
     res.send(notes_arr);
   } else {
     const notes = db.get("notes").value();
@@ -80,11 +77,12 @@ router.post("/", jsonParser, (req, res) => {
     return res.status(400).send(badRequest);
   }
   const notes_array = req.body.notes_array;
+  console.log(notes_array);
   const newNotes = [];
   for (let item of notes_array) {
     const newNote = {
       id: shortId.generate(),
-      message: item
+      message: item.trim()
     };
     try {
       db.get("notes")

@@ -9,20 +9,21 @@
 </head>
 <body>
     <h1>Notebook App</h1>
-    <form>
-        <label for="note">Add a note</label>
-    <input type="text" id="note_input" required/>
+    <form id="add_form">
+        <label for="note">Add note(s):</label>
+    <input type="text" id="note_input"  placeholder="Enter one or more comma seperated messages" required/>
     <button id="btn_submit">Submit</button>
     </form>
     <h2>All Notes</h2>
+    <hr>
     <form id="search_form" method="POST">
         <label for="search">Filter notes:</label>
-        <input type="text" id="search_query">
+        <input type="text" id="search_query" placeholder="Enter comma seperated search terms">
         <button type="submit"> Search</button>
     </form>
     
     <ul id="allNotes"></ul>
-    <br>
+    <div class="status"></div>
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>

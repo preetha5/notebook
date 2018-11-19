@@ -1,0 +1,66 @@
+body{
+    max-width:960px;
+    margin: 0 30%;
+    background-color: #a0bb6a;
+    font-family: 'Helvetica', sans-serif;
+}
+
+h1{
+    text-align: center;
+}
+
+label{
+      font-size: 18px;
+        font-weight: bold;
+}
+
+input[type="checkbox"] {
+    -ms-transform: scale(2);
+    -moz-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    margin-right: 10px;
+}
+
+input#search_query, input#note_input {
+    padding: 5px 10px;
+    width: 300px;
+}
+
+ul#allNotes {
+    list-style: none;
+    padding: 0;
+}
+
+ul#allNotes li {
+    padding: 5px 0;
+    font-size: 1.2em;
+}
+
+#add_form{
+    margin-bottom: 7%;
+}
+
+button, button.btn_delSelected {
+    padding: 5px;
+    margin-top: 20px;
+}
+
+div.note{
+    display: inline-block;
+}
+
+div.note :hover{
+    outline: solid 1px antiquewhite;
+}
+
+.message{
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    outline-color: antiquewhite;
+}
+
+input.btn_save{
+    opacity: 0;
+}
